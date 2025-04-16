@@ -9,7 +9,7 @@
 /*   Updated: 2025-04-11 09:57:24 by ndabbous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "./include/philo.h"
+#include "philo.h"
 
 int	main(int ac, char **av)
 {

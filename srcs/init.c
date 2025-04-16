@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "philo.h"
 
 int	ft_atoi(const char *number)
 {
@@ -66,54 +66,71 @@ void	*ft_calloc(size_t nmemb, size_t size)
 }
 
 
-t_philos	init_philos(int i, int meals)
+void	init_philos(t_symposium *diner, t_philos *philos, int meals)
 {
-	t_philos	philo;
+	int	i;
 
-	philo.id = i;
-	printf("crea= %i\n\n", philo.id);
-	philo.meals_goal = meals;
-	philo.meals_eaten = 0;
-	philo.eating = 0;
-	philo.sleeping = 0;
-	philo.start_time = 0;
-	philo.last_meal_time = 0;
+	i = 0;
+	//printf("init_philos= %i\n\n", philos->id);
+	while (i != diner->nb_philos)
+	{
+		philos[i].id = i + 1;
+		philos[i].meals_goal = meals;
+		philos[i].meals_eaten = 0;
+		philos[i].eating = 0;
+		philos[i].sleeping = 0;
+		philos[i].start_time = 0;
+		philos[i].last_meal_time = 0;
+	//	ft_print_node(&philos[i]);
+		i++;
+	}
 	//pthread_t		thread;
 	// pthread_mutex_t	*r_fork;
 	// pthread_mutex_t	*l_fork;
 	// pthread_mutex_t	*write_lock;
 	// pthread_mutex_t	*dead_lock;
 	// pthread_mutex_t	*meal_lock;
-	return (philo);
 }
 
+// void	init_threads(t_symposium *diner, t_philos *philos)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	//printf("init_threads\n\n");
+// 	while (i != diner->nb_philos)
+// 	{
+// 		philos[i].thread = pthread_create();
+// // 		philos[i].r_fork;
+// // 		philos[i].l_fork;
+// // 		philos[i].dead_lock;
+// // 		philos[i].meal_lock;
+// 		i++;
+// 	}
+// }
 void	init_diner(t_symposium *diner, int ac, char **av)
 {
-	t_philos	*philos;
-	t_philos	*tmp;
 	int			i;
 	int			meals;
+	t_philos	*philos;
+
 
 	i = 0;
 	meals = 0;
 	if (ac == 6)
 		meals = ft_atoi(av[5]);
 	philos = (t_philos *)ft_calloc(sizeof(t_philos), ft_atoi(av[1]) + 1);
+	if (!philos)
+		//ERROR
 	diner->dead = 0;
 	//size_t			start_time;
 	diner->nb_philos = ft_atoi(av[1]);
 	diner->time_die = ft_atoi(av[2]);
 	diner->time_eat = ft_atoi(av[3]);
 	diner->time_sleep = ft_atoi(av[4]);
-	printf("philos= %d\ndie= %d\n eat= %d\nsleep= %d\nmeals= %d\n", diner->nb_philos, diner->time_die, diner->time_eat, diner->time_sleep, meals);
-	tmp = philos;
-	while (i < diner->nb_philos)
-	{
-		tmp[i] = init_philos(i + 1, meals);
-		printf("philo= %i\n", tmp->id);
-		i++;
-	}
-	diner->philos = philos;
+	//printf("philos= %d\ndie= %d\neat= %d\nsleep= %d\nmeals= %d\n", diner->nb_philos, diner->time_die, diner->time_eat, diner->time_sleep, meals);
+	init_philos(diner, philos, meals);
+	//init_threads(diner, philos);
 	//pthread_mutex_t	dead_lock;
 	//pthread_mutex_t	meal_lock;
 	//pthread_mutex_t	write_lock;
