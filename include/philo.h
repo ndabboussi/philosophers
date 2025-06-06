@@ -24,6 +24,21 @@
 # define RED "\033[31;01m"
 # define RESET "\033[00m"
 
+# define ERR_NB "Error: Invalid nb of arguments\n"
+# define ERR_ARGS "Error: Invalid arguments\n"
+# define ERR_USAGE "Usage: ./philo [nb_of_philosophers] [time_to_die] \
+[time_to_eat] [time_to_sleep] \
+(option: [nb_of_times_each_philosopher_must_eat])\n"
+# define ERR_NB_PHILO "Error: Invalid number of philosophers\n"
+# define ERR_NB_EAT "Error: Invalid number time to eat\n"
+# define ERR_NB_SLEEP "Error: Invalid number time to sleep\n"
+# define ERR_NB_TIME "Error: Invalid time before dying value\n"
+# define ERR_NB_MEALS "Error: Invalid number of meals\n"
+
+# define ERR_ALLOC "Error: Alloc failed\n"
+# define ERR_CREATE_THREAD "Error: Failed to create thread\n"
+# define ERR_JOIN_THREAD "Error: Failed to join threads\n"
+
 typedef struct s_philos
 {
 	int				id;
@@ -31,12 +46,13 @@ typedef struct s_philos
 	int				meals_eaten;
 	int				eating;
 	int				sleeping;
+	int				dead;
 	size_t			start_time;
 	size_t			last_meal_time;
 	pthread_t		thread;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	//pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
 }	t_philos;
@@ -49,9 +65,10 @@ typedef struct s_symposium
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
-	//pthread_mutex_t	dead_lock;
-	//pthread_mutex_t	meal_lock;
-	//pthread_mutex_t	write_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	*forks;
 	t_philos		*philos;
 }	t_symposium;
 
@@ -59,9 +76,21 @@ typedef struct s_symposium
 int		check_input(int ac, char **av);
 
 //init
-void	init_diner(t_symposium *diner, int ac, char **av);
+int		init_diner(t_symposium *diner, char **av);
+void	init_philos(t_symposium *diner, t_philos *philos, int meals);
+int		init_philos_threads(t_symposium *diner, t_philos *philos);
+//utils
+void	ft_putstr_fd(char *s, int fd);
+int		ft_atoi(const char *number);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
+
+//time
+size_t	ft_get_time(void);
+int		ft_usleep(size_t ms);
 
 //print
-void	ft_print_node(t_philos *philos);
+void	ft_print_philo(t_philos *philo, int i);
+void	ft_print_diner(t_symposium *diner, int option);
 
 #endif

@@ -1,5 +1,34 @@
 # philosophers
 
+📜 Rules of the Simulation
+
+    Philosophers' Actions:
+        A philosopher can think, take forks, eat, or sleep.
+        To eat, a philosopher must pick up both forks (left and right).
+
+    Simulation Parameters:
+        number_of_philosophers: Total number of philosophers (and forks).
+        time_to_die: Time (in ms) a philosopher can live without eating.
+        time_to_eat: Time (in ms) it takes for a philosopher to eat.
+        time_to_sleep: Time (in ms) a philosopher spends sleeping.
+        [number_of_times_each_philosopher_must_eat] (optional): If provided, the simulation stops when all philosophers have eaten this many times.
+
+    Parameters Rules:
+        The number_of_philosophers must not exceed 200.
+        All the times values must not be bellow 60 ms.
+        All the arguments given to the program must be strictly positive and numeric values.
+
+    Philosopher Death:
+        If a philosopher does not eat within time_to_die, they die, and the simulation ends. The message must be displayed within 10 ms after a philo dies. (first argument in the printed message)
+
+    No Deadlocks:
+        The program must ensure that no deadlocks occur during the simulation.
+
+    No Data Races
+        Ensure that the thread accessing a data does not conflict with another thread.
+
+
+
 threads = https://www.youtube.com/watch?v=d9s_d28yJq0
 mutex = https://www.youtube.com/watch?v=oq29KUy29iQ
 

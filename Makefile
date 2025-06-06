@@ -9,7 +9,8 @@ I = -I $(INC_DIR)
 SRC_DIR = ./srcs
 OBJ_DIR = ./obj
 
-SRCS = main.c $(SRC_DIR)/init.c $(SRC_DIR)/errors.c $(SRC_DIR)/print.c $(SRC_DIR)/routine.c
+SRCS = main.c $(SRC_DIR)/init.c $(SRC_DIR)/errors.c $(SRC_DIR)/print.c \
+		$(SRC_DIR)/routine.c $(SRC_DIR)/utils.c $(SRC_DIR)/time.c
 OBJS = $(SRCS:.c=.o)
 OBJ_FILES = $(patsubst %.o,$(OBJ_DIR)/%.o,$(notdir $(OBJS)))
 

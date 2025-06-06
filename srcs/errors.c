@@ -24,7 +24,7 @@ int	is_digits(char *str)
 		else
 			return (-1);
 	}
-	return (0);
+	return (1);
 }
 
 int	check_input(int ac, char **av)
@@ -32,19 +32,23 @@ int	check_input(int ac, char **av)
 	int	i;
 
 	i = 1;
-	if (ac < 5 || ac > 6)
-	{
-		perror(RED "Error : wrong nb of args" RESET);
-		return (-1);
-	}
+	if (ac != 5 && ac != 6)
+		return (ft_putstr_fd(ERR_NB, 2), -1);
 	while (av[i])
 	{
 		if (is_digits(av[i]) < 0)
-		{
-			perror(RED "Error : invalid arg" RESET);
-			return (-1);
-		}
+			return (ft_putstr_fd(ERR_ARGS, 2), -1);
 		i++;
 	}
+	if (ft_atoi(av[1]) > 250 || ft_atoi(av[1]) <= 0)
+		return (ft_putstr_fd(ERR_NB_PHILO, 2), -1);
+	if (ft_atoi(av[2]) <= 0 || !is_digits(av[2]))
+		return (ft_putstr_fd(ERR_NB_TIME, 2), -1);
+	if (ft_atoi(av[3]) <= 0 || !is_digits(av[3]))
+		return (ft_putstr_fd(ERR_NB_EAT, 2), -1);
+	if (ft_atoi(av[4]) <= 0 || !is_digits(av[4]))
+		return (ft_putstr_fd(ERR_NB_SLEEP, 2), -1);
+	if (ac == 6 && (ft_atoi(av[5]) <= 0 || !is_digits(av[5])))
+		return (ft_putstr_fd(ERR_NB_MEALS, 2), -1);
 	return (0);
 }
