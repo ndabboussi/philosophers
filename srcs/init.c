@@ -114,14 +114,13 @@ void	init_diner(t_symposium *diner, int ac, char **av)
 	int			meals;
 	t_philos	*philos;
 
-
 	i = 0;
 	meals = 0;
 	if (ac == 6)
 		meals = ft_atoi(av[5]);
 	philos = (t_philos *)ft_calloc(sizeof(t_philos), ft_atoi(av[1]) + 1);
 	if (!philos)
-		//ERROR
+		//safe_exit();
 	diner->dead = 0;
 	//size_t			start_time;
 	diner->nb_philos = ft_atoi(av[1]);

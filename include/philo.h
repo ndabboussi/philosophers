@@ -46,9 +46,9 @@ typedef struct s_symposium
 	int				dead;
 	int				nb_philos;
 	size_t			start_time;
-	int			time_die;
-	int			time_eat;
-	int			time_sleep;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
 	//pthread_mutex_t	dead_lock;
 	//pthread_mutex_t	meal_lock;
 	//pthread_mutex_t	write_lock;

@@ -1,4 +1,3 @@
-//#include "philo.h"
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdlib.h>

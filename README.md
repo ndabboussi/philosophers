@@ -39,3 +39,15 @@ That's basically it. Your philosophers have to do the following things (in order
     Repeat
 
 The most complex thing in this project is to understand how threads work and how you can use mutexes to lock / unlock some values. Once you understood that, you "just" have to make each philosopher eat, sleep and think in a loop. Don't forget to print the logs when the state of your philosophers change.
+
+
+
+ valgrind --tool=helgrind 
+
+ Aussi pour les petites astuces on va dire. Il faut que tu choisisses un systeme pour tes philosphers et leur fourchette. Le plus courrant c est d avoir un seul array de mutex fork. Il va falloir que tes philosophers, selon qu il soit pair ou impair commence par prendre une fourchette differente (certains la gauche d autres la droite) pour eviter les deadlocks. Il va aussi certainement te falloir un thread supplementaire qui est un manager ou un butler et qui sert a monitorer les autres philosphers pour verifier qu ils sont vivants (manger dans les temps) et qu ils n ont pas encore manges suffisamment de fois et qui arrete le programme s ils ont finis ou si qqn meurt
+
+Regarde des codes github pour gerer le temps, il va falloir regarder un truc genre ft_utime pour avoir ton temps en millisecondes de facons precise (fait gaffe valgrind ralenti ton programme et donc fausse les temps donc faut run sans valgrind aussi)
+
+Et enfin il surement que tu assignes un petit temps au fait de dormir part exemple pcq en fait dans le sujet il n y a que le temps pour manger, hors le fait d avoir un temps de dormir ou un temps de decallage au debut de ta loop pour certains philo va faciliter la synchronisation (pour ca tu peux bidouiller et essayer des trucs et regarder le resultat sur le vizualizer, moi j ai du mettre un temps de sommeil je crois)
+
+ah et  protege bien les cas ou il n y a pas de philo et ou il n y a qu un seul philo !
