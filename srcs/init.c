@@ -14,30 +14,32 @@
 
 int	init_philos_threads(t_symposium *diner, t_philos *philos)
 {
-	int	i;
+	pthread_t	butler;
+	int			i;
 
 	i = 0;
-	printf("init_threads\n\n");
+	if (pthread_create(&butler, NULL, &monitoring, diner) != 0)
+		return (ft_safe_exit(diner, ERR_CREATE_THREAD), -1);
 	while (i < diner->nb_philos)
 	{
-		philos[i].thread = pthread_create(&diner->philos[i].thread, \
-			NULL, &routine,
-				&diner->philos[i]);
-		if (philos[i].thread != 0)
-			return (ft_putstr_fd(ERR_CREATE_THREAD, 2), -1);
+		if (pthread_create(&diner->philos[i].thread, \
+								NULL, &routine, &diner->philos[i]) != 0)
+			return (ft_safe_exit(diner, ERR_CREATE_THREAD), -1);
 		i++;
 	}
 	i = 0;
+	if (pthread_join(butler, NULL) != 0)
+		return (ft_safe_exit(diner, ERR_JOIN_THREAD), -1);
 	while (i < diner->nb_philos)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)
-			return (ft_putstr_fd(ERR_JOIN_THREAD, 2), -1);
+			return (ft_safe_exit(diner, ERR_JOIN_THREAD), -1);
 		i++;
 	}
 	return (0);
 }
 
-void	init_philos(t_symposium *diner, t_philos *philo, int meals)
+void	init_philos(t_symposium *diner, t_philos *philo, char **av)
 {
 	int	i;
 
@@ -45,19 +47,26 @@ void	init_philos(t_symposium *diner, t_philos *philo, int meals)
 	while (i < diner->nb_philos)
 	{
 		philo[i].id = i + 1;
-		philo[i].meals_goal = meals;
+		if (av[5])
+			philo[i].meals_goal = ft_atoi(av[5]);
 		philo[i].meals_eaten = 0;
 		philo[i].eating = 0;
 		philo[i].sleeping = 0;
-		philo[i].dead = 0;
+		philo[i].dead = &diner->dead;
 		philo[i].start_time = ft_get_time();
 		philo[i].last_meal_time = ft_get_time();
-		ft_print_philo(&philo[i], i);
+		philo[i].nb_philos = ft_atoi(av[1]);
+		philo[i].time_die = ft_atoi(av[2]);
+		philo[i].time_eat = ft_atoi(av[3]);
+		philo[i].time_sleep = ft_atoi(av[4]);
 		philo[i].write_lock = &diner->write_lock;
 		philo[i].dead_lock = &diner->dead_lock;
 		philo[i].meal_lock = &diner->meal_lock;
 		philo[i].l_fork = &diner->forks[i];
-		philo[i].r_fork = 0;
+		if (i == 0)
+			philo[i].r_fork = &diner->forks[diner->nb_philos - 1];
+		else
+			philo[i].r_fork = &diner->forks[i - 1];
 		i++;
 	}
 }
@@ -97,7 +106,6 @@ int	init_diner(t_symposium *diner, char **av)
 	if (!philos)
 		return (ft_putstr_fd(ERR_ALLOC, 2), -1);
 	diner->philos = philos;
-	ft_print_diner(diner, 0);
 	pthread_mutex_init(&diner->dead_lock, NULL);
 	pthread_mutex_init(&diner->meal_lock, NULL);
 	pthread_mutex_init(&diner->write_lock, NULL);

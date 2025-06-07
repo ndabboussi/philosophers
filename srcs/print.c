@@ -4,7 +4,10 @@ void	ft_print_philo(t_philos *philo, int i)
 {
 	printf("[PHILO N %i]\n", i + 1);
 	printf("    Philos id = %i\n", philo->id);
-	printf("    Dead ? [%i]\n", philo->dead);
+	//printf("    Dead ? [%i]\n", philo->dead);
+	printf("    Time to die = [%i]\n", philo->time_die);
+	printf("    Time to eat = [%i]\n", philo->time_eat);
+	printf("    Time to sleep = [%i]\n", philo->time_sleep);
 	printf("    Meals_eaten= %i/%i\n", philo->meals_eaten, philo->meals_goal);
 	printf("    Eating ? %i\n", philo->eating);
 	printf("    Sleeping ? %i\n", philo->sleeping);

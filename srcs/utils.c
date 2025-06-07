@@ -65,7 +65,6 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	size_t	i;
@@ -80,4 +79,3 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_bzero(str, (size * nmemb));
 	return (str);
 }
-

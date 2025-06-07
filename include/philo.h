@@ -42,19 +42,23 @@
 typedef struct s_philos
 {
 	int				id;
+	int				*dead;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				nb_philos;
 	int				meals_goal;
 	int				meals_eaten;
 	int				eating;
 	int				sleeping;
-	int				dead;
 	size_t			start_time;
 	size_t			last_meal_time;
 	pthread_t		thread;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t	*write_lock;
 }	t_philos;
 
 typedef struct s_symposium
@@ -77,17 +81,32 @@ int		check_input(int ac, char **av);
 
 //init
 int		init_diner(t_symposium *diner, char **av);
-void	init_philos(t_symposium *diner, t_philos *philos, int meals);
+void	init_philos(t_symposium *diner, t_philos *philos, char **av);
 int		init_philos_threads(t_symposium *diner, t_philos *philos);
+
 //utils
 void	ft_putstr_fd(char *s, int fd);
 int		ft_atoi(const char *number);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+//utils2
+void	ft_print_msg(t_philos *philo, char *msg);
+void	tragic_announcement(t_philos *philo, char *msg);
+void	ft_safe_exit(t_symposium *diner, char *str);
 
 //time
 size_t	ft_get_time(void);
 int		ft_usleep(size_t ms);
+
+//routine
+void	*routine(void *arg);
+
+//eat
+void	ft_eat(t_philos *philo);
+
+//monitoring
+int		check_death(t_philos *philo);
+void	*monitoring(void *arg);
 
 //print
 void	ft_print_philo(t_philos *philo, int i);

@@ -23,8 +23,9 @@ int	main(int ac, char **av)
 	meals = 0;
 	if (ac == 6)
 		meals = ft_atoi(av[5]);
-	init_philos(&diner, diner.philos, meals);
-	// if (init_philos_threads(&diner, diner.philos) < 0)
-	// 	return (1);
+	init_philos(&diner, diner.philos, av);
+	if (init_philos_threads(&diner, diner.philos) < 0)
+		return (1);
+	ft_safe_exit(&diner, "");
 	return (0);
 }

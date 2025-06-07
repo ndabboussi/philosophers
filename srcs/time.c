@@ -30,3 +30,28 @@ int	ft_usleep(size_t ms)
 		usleep(500);
 	return (0);
 }
+// void	ft_sleep(t_philos *philosopher)
+// {
+// 	print_msg("is sleeping", philosopher->id, philosopher);
+// 	ft_usleep2(philosopher->time_to_sleep, philosopher);
+// }
+
+// int	ft_usleep(size_t time)
+// {
+// 	size_t	start;
+
+// 	start = current_time();
+// 	while ((current_time() - start) < time)
+// 		usleep(50);
+// 	return (0);
+// }
+
+// int	ft_usleep2(size_t time, t_philosophers *philo)
+// {
+// 	size_t	start;
+
+// 	start = current_time();
+// 	while ((current_time() - start) < time && dead_check(philo) == 0)
+// 		usleep(75);
+// 	return (0);
+// }
