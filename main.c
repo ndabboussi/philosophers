@@ -14,15 +14,11 @@
 int	main(int ac, char **av)
 {
 	t_symposium	diner;
-	int			meals;
 
 	if (check_input(ac, av) < 0)
 		return (1);
 	if (init_diner(&diner, av) < 0)
 		return (1);
-	meals = 0;
-	if (ac == 6)
-		meals = ft_atoi(av[5]);
 	init_philos(&diner, diner.philos, av);
 	if (init_philos_threads(&diner, diner.philos) < 0)
 		return (1);
