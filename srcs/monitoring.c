@@ -41,9 +41,6 @@ int	is_anyone_dead(t_symposium *diner)
 			pthread_mutex_lock(&diner->dead_lock);
 			diner->dead = 1;
 			pthread_mutex_unlock(&diner->dead_lock);
-			// pthread_mutex_lock(diner->philos[i].dead_lock);
-			// *diner->philos[i].dead = 1;
-			// pthread_mutex_unlock(diner->philos[i].dead_lock);
 			tragic_announcement(&diner->philos[i], "died");
 			return (1);
 		}
@@ -59,7 +56,8 @@ void	*monitoring(void *arg)
 	diner = (t_symposium *)arg;
 	while (1)
 	{
-		if (is_anyone_dead(diner) == 1)
+		if (is_anyone_dead(diner) == 1 /*|| (diner->count_full_philos != 0 &&\
+				diner->count_full_philos == diner->meals_goal)*/)
 			return (arg);
 	}
 	return (arg);

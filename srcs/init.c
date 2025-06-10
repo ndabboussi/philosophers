@@ -39,6 +39,20 @@ int	init_philos_threads(t_symposium *diner, t_philos *philos)
 	return (0);
 }
 
+void	init_philos_2(t_philos *philo, char **av, int i)
+{
+	philo[i].id = i + 1;
+	philo[i].meals_eaten = 0;
+	philo[i].eating = 0;
+	philo[i].sleeping = 0;
+	philo[i].nb_philos = ft_atoi(av[1]);
+	philo[i].time_die = ft_atoi(av[2]);
+	philo[i].time_eat = ft_atoi(av[3]);
+	philo[i].time_sleep = ft_atoi(av[4]);
+	if (av[5])
+		philo[i].meals_goal = ft_atoi(av[5]);
+}
+
 void	init_philos(t_symposium *diner, t_philos *philo, char **av)
 {
 	int	i;
@@ -46,19 +60,12 @@ void	init_philos(t_symposium *diner, t_philos *philo, char **av)
 	i = 0;
 	while (i < diner->nb_philos)
 	{
-		philo[i].id = i + 1;
-		if (av[5])
-			philo[i].meals_goal = ft_atoi(av[5]);
-		philo[i].meals_eaten = 0;
-		philo[i].eating = 0;
-		philo[i].sleeping = 0;
+		init_philos_2(philo, av, i);
 		philo[i].dead = &diner->dead;
+		philo[i].full = &diner->count_full_philos;
 		philo[i].start_time = ft_get_time();
 		philo[i].last_meal_time = ft_get_time();
-		philo[i].nb_philos = ft_atoi(av[1]);
-		philo[i].time_die = ft_atoi(av[2]);
-		philo[i].time_eat = ft_atoi(av[3]);
-		philo[i].time_sleep = ft_atoi(av[4]);
+		philo[i].exit_routine_lock = &diner->stop_lock;
 		philo[i].write_lock = &diner->write_lock;
 		philo[i].dead_lock = &diner->dead_lock;
 		philo[i].meal_lock = &diner->meal_lock;
@@ -97,15 +104,19 @@ int	init_diner(t_symposium *diner, char **av)
 
 	i = 0;
 	diner->dead = 0;
+	diner->count_full_philos = 0;
 	diner->start_time = ft_get_time();
 	diner->nb_philos = ft_atoi(av[1]);
 	diner->time_die = ft_atoi(av[2]);
 	diner->time_eat = ft_atoi(av[3]);
 	diner->time_sleep = ft_atoi(av[4]);
+	if (av[5])
+		diner->meals_goal = ft_atoi(av[5]);
 	philos = (t_philos *)ft_calloc(sizeof(t_philos), diner->nb_philos);
 	if (!philos)
 		return (ft_putstr_fd(ERR_ALLOC, 2), -1);
 	diner->philos = philos;
+	pthread_mutex_init(&diner->stop_lock, NULL);
 	pthread_mutex_init(&diner->dead_lock, NULL);
 	pthread_mutex_init(&diner->meal_lock, NULL);
 	pthread_mutex_init(&diner->write_lock, NULL);

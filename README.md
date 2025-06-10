@@ -80,3 +80,6 @@ Regarde des codes github pour gerer le temps, il va falloir regarder un truc gen
 Et enfin il surement que tu assignes un petit temps au fait de dormir part exemple pcq en fait dans le sujet il n y a que le temps pour manger, hors le fait d avoir un temps de dormir ou un temps de decallage au debut de ta loop pour certains philo va faciliter la synchronisation (pour ca tu peux bidouiller et essayer des trucs et regarder le resultat sur le vizualizer, moi j ai du mettre un temps de sommeil je crois)
 
 ah et  protege bien les cas ou il n y a pas de philo et ou il n y a qu un seul philo !
+
+
+ make && ./philo 2 600 200 200 3

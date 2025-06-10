@@ -49,6 +49,8 @@ void	*routine(void *arg)
 		if (philo->meals_goal > 0 && philo->meals_eaten >= philo->meals_goal)
 			break ;
 		ft_eat(philo);
+		if (philo->meals_goal > 0 && philo->meals_eaten >= philo->meals_goal)
+			break ;
 		if (check_death(philo))
 			break ;
 		ft_sleep(philo);
@@ -56,5 +58,8 @@ void	*routine(void *arg)
 			break ;
 		ft_think(philo);
 	}
+	pthread_mutex_lock(philo->exit_routine_lock);
+	*philo->full += 1;
+	pthread_mutex_unlock(philo->exit_routine_lock);
 	return (arg);
 }
