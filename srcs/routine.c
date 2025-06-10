@@ -39,16 +39,16 @@ void	ft_sleep(t_philos *philo)
 
 int	wait_for_others(t_philos *philo)
 {
+	pthread_mutex_lock(philo->start_lock);
 	while (*philo->flag_start != 1)
 	{
-		pthread_mutex_lock(philo->start_lock);
 		if (*philo->flag_start == -1)
 		{
 			pthread_mutex_unlock(philo->start_lock);
 			return (-1);
 		}
-		pthread_mutex_unlock(philo->start_lock);
 	}
+	pthread_mutex_unlock(philo->start_lock);
 	return (1);
 }
 
