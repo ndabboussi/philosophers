@@ -41,6 +41,7 @@
 
 typedef struct s_philos
 {
+	int				*flag_start;
 	int				id;
 	int				*dead;
 	int				time_die;
@@ -55,6 +56,7 @@ typedef struct s_philos
 	size_t			start_time;
 	size_t			last_meal_time;
 	pthread_t		thread;
+	pthread_mutex_t	*start_lock;
 	pthread_mutex_t	*exit_routine_lock;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
@@ -65,7 +67,7 @@ typedef struct s_philos
 
 typedef struct s_symposium
 {
-	//int				flag_start;
+	int				flag_start;
 	int				dead;
 	int				nb_philos;
 	size_t			start_time;

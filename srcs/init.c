@@ -12,33 +12,6 @@
 
 #include "philo.h"
 
-int	init_philos_threads(t_symposium *diner, t_philos *philos)
-{
-	pthread_t	butler;
-	int			i;
-
-	i = 0;
-	if (pthread_create(&butler, NULL, &monitoring, diner) != 0)
-		return (ft_safe_exit(diner, ERR_CREATE_THREAD), -1);
-	while (i < diner->nb_philos)
-	{
-		if (pthread_create(&diner->philos[i].thread, \
-								NULL, &routine, &diner->philos[i]) != 0)
-			return (ft_safe_exit(diner, ERR_CREATE_THREAD), -1);
-		i++;
-	}
-	i = 0;
-	if (pthread_join(butler, NULL) != 0)
-		return (ft_safe_exit(diner, ERR_JOIN_THREAD), -1);
-	while (i < diner->nb_philos)
-	{
-		if (pthread_join(philos[i].thread, NULL) != 0)
-			return (ft_safe_exit(diner, ERR_JOIN_THREAD), -1);
-		i++;
-	}
-	return (0);
-}
-
 void	init_philos_2(t_philos *philo, char **av, int i)
 {
 	philo[i].id = i + 1;
@@ -60,6 +33,8 @@ void	init_philos(t_symposium *diner, t_philos *philo, char **av)
 	i = 0;
 	while (i < diner->nb_philos)
 	{
+		philo[i].flag_start = &diner->flag_start;
+		philo[i].start_lock = &diner->start_lock;
 		init_philos_2(philo, av, i);
 		philo[i].dead = &diner->dead;
 		philo[i].full = &diner->count_full_philos;
@@ -99,10 +74,9 @@ int	init_forks(t_symposium *diner)
 
 int	init_diner(t_symposium *diner, char **av)
 {
-	int			i;
 	t_philos	*philos;
 
-	i = 0;
+	diner->flag_start = 0;
 	diner->dead = 0;
 	diner->count_full_philos = 0;
 	diner->start_time = ft_get_time();
@@ -116,6 +90,7 @@ int	init_diner(t_symposium *diner, char **av)
 	if (!philos)
 		return (ft_putstr_fd(ERR_ALLOC, 2), -1);
 	diner->philos = philos;
+	pthread_mutex_init(&diner->start_lock, NULL);
 	pthread_mutex_init(&diner->stop_lock, NULL);
 	pthread_mutex_init(&diner->dead_lock, NULL);
 	pthread_mutex_init(&diner->meal_lock, NULL);
