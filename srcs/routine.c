@@ -79,14 +79,3 @@ void	*routine(void *arg)
 	}
 	return (arg);
 }
-
-	// while (*philo->flag_start != 1)
-	// {
-	// 	pthread_mutex_lock(philo->start_lock);
-	// 	if (*philo->flag_start == -1)
-	// 	{
-	// 		pthread_mutex_unlock(philo->start_lock);
-	// 		return (NULL);
-	// 	}
-	// 	pthread_mutex_unlock(philo->start_lock);
-	// }

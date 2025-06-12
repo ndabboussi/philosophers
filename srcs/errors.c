@@ -42,13 +42,14 @@ int	check_input(int ac, char **av)
 	}
 	if (ft_atoi(av[1]) > 250 || ft_atoi(av[1]) <= 0)
 		return (ft_putstr_fd(ERR_NB_PHILO, 2), -1);
-	if (ft_atoi(av[2]) <= 0 || !is_digits(av[2]))
+	if (ft_atoi(av[2]) <= 0 || ft_atoi(av[2]) > 2147483647 || !is_digits(av[2]))
 		return (ft_putstr_fd(ERR_NB_DIE, 2), -1);
-	if (ft_atoi(av[3]) <= 0 || !is_digits(av[3]))
+	if (ft_atoi(av[3]) <= 0 || ft_atoi(av[3]) > 2147483647 || !is_digits(av[3]))
 		return (ft_putstr_fd(ERR_NB_EAT, 2), -1);
-	if (ft_atoi(av[4]) <= 0 || !is_digits(av[4]))
+	if (ft_atoi(av[4]) <= 0 || ft_atoi(av[4]) > 2147483647 || !is_digits(av[4]))
 		return (ft_putstr_fd(ERR_NB_SLEEP, 2), -1);
-	if (ac == 6 && (ft_atoi(av[5]) <= 0 || !is_digits(av[5])))
+	if (ac == 6 && (ft_atoi(av[5]) <= 0 || ft_atoi(av[5]) > 2147483647 \
+										|| !is_digits(av[5])))
 		return (ft_putstr_fd(ERR_NB_MEALS, 2), -1);
 	return (0);
 }

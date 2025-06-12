@@ -54,5 +54,3 @@ int	main(int ac, char **av)
 	printf("Nb of mails: %d\n", mails);
 	return (0);
 }
-/* mutex is protecting a part of the code from other threads
-executing it at the same time */
