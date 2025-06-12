@@ -1,21 +1,8 @@
 # philosophers
 
 threads = https://www.youtube.com/watch?v=d9s_d28yJq0
-mutex = https://www.youtube.com/watch?v=oq29KUy29iQ➜  philosophers git:(meal_flag) ✗ norminette srcs
-srcs/errors.c: OK!
-srcs/init.c: OK!
-srcs/print.c: Error!
-Error: INVALID_HEADER       (line:   1, col:   1):      Missing or invalid 42 header
-Error: WRONG_SCOPE_COMMENT  (line:   7, col:   5):      Comment is invalid in this scope
-Error: EMPTY_LINE_FUNCTION  (line:  16, col:   1):      Empty line in function
-srcs/routine.c: OK!
-srcs/utils.c: OK!
-srcs/time.c: OK!
-srcs/monitoring.c: OK!
-srcs/eat.c: OK!
-srcs/utils2.c: OK!
-srcs/threads.c: Error!
-Error: LINE_TOO_LONG        (line:  73, col: 117):      line too long
+
+mutex = https://www.youtube.com/watch?v=oq29KUy29iQ
 create my own usleep function
 
 - Create a data structure to store all required information about a philosopher
