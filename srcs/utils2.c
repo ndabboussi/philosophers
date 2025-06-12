@@ -49,6 +49,7 @@ void	ft_safe_exit(t_symposium *diner, char *str)
 		}
 		free(diner->forks);
 	}
+	pthread_mutex_destroy(&diner->start_lock);
 	pthread_mutex_destroy(&diner->dead_lock);
 	pthread_mutex_destroy(&diner->meal_lock);
 	pthread_mutex_destroy(&diner->write_lock);

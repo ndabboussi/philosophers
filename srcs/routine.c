@@ -37,17 +37,38 @@ void	ft_sleep(t_philos *philo)
 	ft_usleep(philo->time_sleep);
 }
 
+int	wait_for_others(t_philos *philo)
+{
+	pthread_mutex_lock(philo->start_lock);
+	while (*philo->flag_start != 1)
+	{
+		if (*philo->flag_start == -1)
+		{
+			pthread_mutex_unlock(philo->start_lock);
+			return (-1);
+		}
+	}
+	pthread_mutex_unlock(philo->start_lock);
+	return (1);
+}
+
 void	*routine(void *arg)
 {
 	t_philos	*philo;
 
 	philo = (t_philos *)arg;
+	if (wait_for_others(philo) < 0)
+		return (NULL);
 	if (philo->id % 2 == 0)
 		ft_usleep(1);
 	while (!check_death(philo))
 	{
-		if (philo->meals_goal > 0 && philo->meals_eaten >= philo->meals_goal)
-			break ;
+		if (philo->meals_goal > 0 && philo->meals_eaten == philo->meals_goal)
+		{
+			pthread_mutex_lock(philo->exit_routine_lock);
+			*philo->full += 1;
+			pthread_mutex_unlock(philo->exit_routine_lock);
+		}
 		ft_eat(philo);
 		if (check_death(philo))
 			break ;
@@ -58,3 +79,14 @@ void	*routine(void *arg)
 	}
 	return (arg);
 }
+
+	// while (*philo->flag_start != 1)
+	// {
+	// 	pthread_mutex_lock(philo->start_lock);
+	// 	if (*philo->flag_start == -1)
+	// 	{
+	// 		pthread_mutex_unlock(philo->start_lock);
+	// 		return (NULL);
+	// 	}
+	// 	pthread_mutex_unlock(philo->start_lock);
+	// }

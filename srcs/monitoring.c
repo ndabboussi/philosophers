@@ -34,21 +34,27 @@ int	is_anyone_dead(t_symposium *diner)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&diner->stop_lock);
 	while (i < diner->philos[0].nb_philos)
 	{
-		if (butler_death_check(&diner->philos[i]))
+		if (butler_death_check(&diner->philos[i]) || \
+				(diner->count_full_philos != 0 && \
+				diner->count_full_philos == diner->nb_philos))
 		{
 			pthread_mutex_lock(&diner->dead_lock);
 			diner->dead = 1;
 			pthread_mutex_unlock(&diner->dead_lock);
-			// pthread_mutex_lock(diner->philos[i].dead_lock);
-			// *diner->philos[i].dead = 1;
-			// pthread_mutex_unlock(diner->philos[i].dead_lock);
-			tragic_announcement(&diner->philos[i], "died");
+			pthread_mutex_lock(&diner->start_lock);
+			if (diner->flag_start == 1 && (diner->count_full_philos == 0 && \
+				diner->count_full_philos != diner->nb_philos))
+				tragic_announcement(&diner->philos[i], "died");
+			pthread_mutex_unlock(&diner->stop_lock);
+			pthread_mutex_unlock(&diner->start_lock);
 			return (1);
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&diner->stop_lock);
 	return (0);
 }
 

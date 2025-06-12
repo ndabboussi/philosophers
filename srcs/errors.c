@@ -43,7 +43,7 @@ int	check_input(int ac, char **av)
 	if (ft_atoi(av[1]) > 250 || ft_atoi(av[1]) <= 0)
 		return (ft_putstr_fd(ERR_NB_PHILO, 2), -1);
 	if (ft_atoi(av[2]) <= 0 || !is_digits(av[2]))
-		return (ft_putstr_fd(ERR_NB_TIME, 2), -1);
+		return (ft_putstr_fd(ERR_NB_DIE, 2), -1);
 	if (ft_atoi(av[3]) <= 0 || !is_digits(av[3]))
 		return (ft_putstr_fd(ERR_NB_EAT, 2), -1);
 	if (ft_atoi(av[4]) <= 0 || !is_digits(av[4]))

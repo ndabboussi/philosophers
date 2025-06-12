@@ -32,7 +32,7 @@
 # define ERR_NB_PHILO "Error: Invalid number of philosophers\n"
 # define ERR_NB_EAT "Error: Invalid number time to eat\n"
 # define ERR_NB_SLEEP "Error: Invalid number time to sleep\n"
-# define ERR_NB_TIME "Error: Invalid time before dying value\n"
+# define ERR_NB_DIE "Error: Invalid time before dying value\n"
 # define ERR_NB_MEALS "Error: Invalid number of meals\n"
 
 # define ERR_ALLOC "Error: Alloc failed\n"
@@ -41,6 +41,7 @@
 
 typedef struct s_philos
 {
+	int				*flag_start;
 	int				id;
 	int				*dead;
 	int				time_die;
@@ -51,9 +52,12 @@ typedef struct s_philos
 	int				meals_eaten;
 	int				eating;
 	int				sleeping;
+	int				*full;
 	size_t			start_time;
 	size_t			last_meal_time;
 	pthread_t		thread;
+	pthread_mutex_t	*start_lock;
+	pthread_mutex_t	*exit_routine_lock;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*dead_lock;
@@ -63,12 +67,17 @@ typedef struct s_philos
 
 typedef struct s_symposium
 {
+	int				flag_start;
 	int				dead;
 	int				nb_philos;
 	size_t			start_time;
 	int				time_die;
 	int				time_eat;
 	int				time_sleep;
+	int				meals_goal;
+	int				count_full_philos;
+	pthread_mutex_t	start_lock;
+	pthread_mutex_t	stop_lock;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
