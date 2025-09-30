@@ -1,52 +1,66 @@
-# philosophers
+# 🍽️ Philosophers
 
-threads = https://www.youtube.com/watch?v=d9s_d28yJq0
+## 🧠 Project Overview
 
-mutex = https://www.youtube.com/watch?v=oq29KUy29iQ
-create my own usleep function
+*Philosophers* is a classic concurrency exercise from **42 School**.  
+The goal is to simulate the famous *Dining Philosophers Problem* (Edsger Dijkstra, 1965) while respecting strict rules about **threads**, **synchronization**, and **timing**.
 
-- Create a data structure to store all required information about a philosopher
+### 📌 The Story
 
-- Create the correct number of philosopher
+Imagine several philosophers sitting around a round table. Between each of them lies a fork. A philosopher’s life consists of alternating between **thinking**, **eating**, and **sleeping**.  
 
-- Create the correct number of threads
+To eat, a philosopher must pick up **two forks** (the one on their left and the one on their right). Once finished, they put the forks back and start thinking again.  
 
-- Create a routine
+The challenge:  
+- Ensure philosophers never starve.  
+- Prevent *deadlocks* (e.g., everyone grabbing their left fork at the same time and blocking forever).  
+- Monitor their lives with precise timing (a philosopher "dies" if they don’t eat within a given time).  
 
-    What each philosopher has to do ? In which order ?
+---
 
-    Initiate the threads with said routine
+## 🚀 How to Run
 
-Some variables have to be shared between all philosophers so take this into account when creating your data structures.
-Routine checklist
+### ✅ Requirements
+- A Unix-like environment (Linux, macOS, or WSL on Windows)  
+- `gcc` or `clang` compiler  
+- `make`  
 
-   -Create a loop that runs until any of your philosophers die
+### ⚙️ Installation
+Clone the repository and compile:
+git clone https://github.com/ndabboussi/philosophers.git
+cd philosophers
+make
 
-If you have to loop until any of your philosphers die, it might be a good idea to check in the routine if any of your philosopher has died.
+### ▶️ Usage
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_must_eat]
 
-That's basically it. Your philosophers have to do the following things (in order) in the routine.
+Example: 
+./philo 5 800 200 200
+➡️ 5 philosophers, each has 800ms before starving, 200ms to eat, 200ms to sleep.
 
-    Eat
+./philo 5 800 200 200 7
+➡️ Same as above, but the simulation ends once each philosopher has eaten 7 times.
 
-    Sleep
+### 🛠 Debugging with Valgrind
+Check thread safety with Helgrind:
+valgrind --tool=helgrind ./philo 5 800 200 200
+⚠️ This slows execution and may affect timing.
 
-    Think
+---
 
-    Repeat
+## 🔑 Key Challenges
+| Challenge                  | Why it matters                                                             |
+| -------------------------- | -------------------------------------------------------------------------- |
+| **Thread synchronization** | Philosophers (threads) must safely access shared resources (forks, state). |
+| **Avoiding deadlocks**     | Without careful design, philosophers may block each other forever.         |
+| **Accurate timing**        | Keep precise track of last meal to detect starvation.                      |
+| **Monitoring system**      | A supervisor checks deaths or completion of required meals.                |
+| **Edge cases**             | Single philosopher, zero philosophers, optional meals parameter, etc.      |
+| **Clean printing**         | Prevent overlapping logs with synchronized output.                         |
 
-The most complex thing in this project is to understand how threads work and how you can use mutexes to lock / unlock some values. Once you understood that, you "just" have to make each philosopher eat, sleep and think in a loop. Don't forget to print the logs when the state of your philosophers change.
+---
 
+## 📚 Resources I Used
 
-
- valgrind --tool=helgrind 
-
- Aussi pour les petites astuces on va dire. Il faut que tu choisisses un systeme pour tes philosphers et leur fourchette. Le plus courrant c est d avoir un seul array de mutex fork. Il va falloir que tes philosophers, selon qu il soit pair ou impair commence par prendre une fourchette differente (certains la gauche d autres la droite) pour eviter les deadlocks. Il va aussi certainement te falloir un thread supplementaire qui est un manager ou un butler et qui sert a monitorer les autres philosphers pour verifier qu ils sont vivants (manger dans les temps) et qu ils n ont pas encore manges suffisamment de fois et qui arrete le programme s ils ont finis ou si qqn meurt
-
-Regarde des codes github pour gerer le temps, il va falloir regarder un truc genre ft_utime pour avoir ton temps en millisecondes de facons precise (fait gaffe valgrind ralenti ton programme et donc fausse les temps donc faut run sans valgrind aussi)
-
-Et enfin il surement que tu assignes un petit temps au fait de dormir part exemple pcq en fait dans le sujet il n y a que le temps pour manger, hors le fait d avoir un temps de dormir ou un temps de decallage au debut de ta loop pour certains philo va faciliter la synchronisation (pour ca tu peux bidouiller et essayer des trucs et regarder le resultat sur le vizualizer, moi j ai du mettre un temps de sommeil je crois)
-
-ah et  protege bien les cas ou il n y a pas de philo et ou il n y a qu un seul philo !
-
-
- make && ./philo 2 600 200 200 3
+- [🎥 Threads in C explained](https://www.youtube.com/watch?v=d9s_d28yJq0)  
+- [🎥 Mutex explained](https://www.youtube.com/watch?v=oq29KUy29iQ)
