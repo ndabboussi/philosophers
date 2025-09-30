@@ -25,26 +25,26 @@ The challenge:
 - `gcc` or `clang` compiler  
 - `make`  
 
-### ⚙️ Installation
-Clone the repository and compile:
-git clone https://github.com/ndabboussi/philosophers.git
-cd philosophers
-make
+### ⚙️ Installation  
+Clone the repository and compile:  
+git clone https://github.com/ndabboussi/philosophers.git  
+cd philosophers  
+make  
 
-### ▶️ Usage
-./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_must_eat]
+### ▶️ Usage  
+./philo number_of_philosophers time_to_die time_to_eat   time_to_sleep [number_of_times_each_must_eat]  
 
-Example: 
-./philo 5 800 200 200
-➡️ 5 philosophers, each has 800ms before starving, 200ms to eat, 200ms to sleep.
+Example:  
+./philo 5 800 200 200  
+➡️ 5 philosophers, each has 800ms before starving, 200ms to eat, 200ms to sleep.  
 
-./philo 5 800 200 200 7
-➡️ Same as above, but the simulation ends once each philosopher has eaten 7 times.
+./philo 5 800 200 200 7  
+➡️ Same as above, but the simulation ends once each philosopher has eaten 7 times.  
 
-### 🛠 Debugging with Valgrind
-Check thread safety with Helgrind:
-valgrind --tool=helgrind ./philo 5 800 200 200
-⚠️ This slows execution and may affect timing.
+### 🛠 Debugging with Valgrind  
+Check thread safety with Helgrind:  
+valgrind --tool=helgrind ./philo 5 800 200 200  
+⚠️ This slows execution and may affect timing.  
 
 ---
 
